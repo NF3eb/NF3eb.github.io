@@ -14,20 +14,19 @@ export interface FriendItem {
 export const friendsData: FriendItem[] = [
 	{
 		id: 1,
-		title: "Astro",
-		imgurl: "https://avatars.githubusercontent.com/u/44914786?v=4&s=640",
-		desc: "The web framework for content-driven websites",
-		siteurl: "https://github.com/withastro/astro",
-		tags: ["Framework"],
+		title: "Evans",
+		imgurl: "https://img.evanser.top/page-img/%E5%A4%B4%E5%83%8F.png",
+		desc: "学生时代开始的blog",
+		siteurl: "https://www.evanser.top/",
+		tags: ["csdog（？）"],
 	},
 	{
 		id: 2,
-		title: "Mizuki Docs",
-		imgurl:
-			"https://q.qlogo.cn/headimg_dl?dst_uin=3231515355&spec=640&img_type=jpg",
-		desc: "Mizuki User Manual",
-		siteurl: "https://docs.mizuki.mysqil.com",
-		tags: ["Docs"],
+		title: "柒世纪视频组",
+		imgurl: "https://7thcv.cn/%E8%A7%86%E9%A2%91%E7%BB%84%E5%90%88%E7%85%A72025.png",
+		desc: "一个专注于MAD与三维动画创作研究的学生社团。",
+		siteurl: "https://7thcv.cn/",
+		tags: ["媒体制作"],
 	},
 ];
 

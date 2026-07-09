@@ -18,14 +18,10 @@ const categories = [...new Set(skillsData.map((skill) => skill.category))];
 
 const getCategoryText = (category: string) => {
 	switch (category) {
-		case "frontend":
-			return i18n(I18nKey.skillsFrontend);
-		case "backend":
-			return i18n(I18nKey.skillsBackend);
-		case "database":
-			return i18n(I18nKey.skillsDatabase);
-		case "tools":
-			return i18n(I18nKey.skillsTools);
+		case "programming":
+			return i18n(I18nKey.skillsProgramming);
+		case "media":
+			return i18n(I18nKey.skillsMedia);
 		case "other":
 			return i18n(I18nKey.skillsOther);
 		default:
@@ -35,14 +31,10 @@ const getCategoryText = (category: string) => {
 
 const getCategoryIcon = (category: string) => {
 	switch (category) {
-		case "frontend":
-			return "material-symbols:web";
-		case "backend":
-			return "material-symbols:dns";
-		case "database":
-			return "material-symbols:storage";
-		case "tools":
+		case "programming":
 			return "material-symbols:build";
+		case "media":
+			return "material-symbols:storage";
 		case "other":
 			return "material-symbols:widgets";
 		default:

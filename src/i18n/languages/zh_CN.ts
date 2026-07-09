@@ -133,7 +133,7 @@ export const zh_CN: Translation = {
 
 	// 设备页面
 	[Key.devices]: "我的设备",
-	[Key.devicesSubtitle]: "这里展示了我日常使用的各类设备",
+	[Key.devicesSubtitle]: "v我50助力获得DDR5 32GB内存条",
 	[Key.devicesViewDetails]: "查看详情",
 
 	// 项目展示页面
@@ -165,12 +165,10 @@ export const zh_CN: Translation = {
 
 	// 技能展示页面
 	[Key.skills]: "技能展示",
-	[Key.skillsSubtitle]: "还没改，这个界面一改就崩溃不知道为什么QAQ",
-	[Key.skillsFrontend]: "前端开发",
-	[Key.skillsBackend]: "后端开发",
-	[Key.skillsDatabase]: "数据库",
-	[Key.skillsTools]: "开发工具",
-	[Key.skillsOther]: "其他技能",
+	[Key.skillsSubtitle]: "我是废物QAQ",
+	[Key.skillsProgramming]: "程序",
+	[Key.skillsMedia]: "媒体制作",
+	[Key.skillsOther]: "其他",
 	[Key.skillLevel]: "熟练度",
 	[Key.skillLevelBeginner]: "初学者",
 	[Key.skillLevelIntermediate]: "中级",
@@ -179,6 +177,7 @@ export const zh_CN: Translation = {
 	[Key.skillExperience]: "经验",
 	[Key.skillYears]: "年",
 	[Key.skillMonths]: "个月",
+	[Key.skillZeroMonth]: "在启动啦",
 	[Key.skillsTotal]: "总技能数",
 	[Key.skillsExpert]: "专家级",
 	[Key.skillsAdvanced]: "高级",

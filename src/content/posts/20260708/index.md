@@ -106,6 +106,21 @@ pnpm dev
 <big>参考Mizuki主题的<u>**[官网文档](https://docs.mizuki.mysqil.com/guide/intro/)**</u>进行配置。</big><br>
 - tips1：官网文档里“基础布局”和“文章布局”栏目中包含的`src/config.ts`文件，实际上指的是`src\config`文件夹，`siteConfig`对象指的是这个文件夹中的文件`siteConfig.ts`，其他同理。此外，“文章布局”栏目中`toc`对象放在文件`siteConfig.ts`之中。<small>~~(好乱啊wwwww)~~</small><br>
 - tips2：如果需要更改界面文字，可以到`\src\i18n\languages\zh_CN.ts`中更改。<br>
+- 补：build阶段若出现以下的报错：<br>
+
+```
+16:36:51 [ERROR] [vite] ✗ Build failed in 3.93s
+WebAssembly.Memory.grow(): Maximum memory size exceeded
+```
+
+有可能是修改了`\src\data\skills.ts`导致的。<br>
+初步判断在`skills.ts`中`simple-icons:nginx`、`simple-icons:firebase`、`simple-icons:sqlite`、`simple-icons:express`这四个icon需要有至少一个icon**被包含在文件中**，才能正常运行。<small>~~（这很诡异你知道吗）>~~</small><br>
+解决方式：在文件开头加上以下的注释。<small>~~（？？？）>~~</small><br>
+
+```TypeScript
+// "simple-icons:sqlite"
+```
+
 更改本地仓库的文件后进行保存，浏览器中的网页会自动刷新，即刻展示修改内容（文章修改可能会卡一会）。<br>
 配置完后可以在Mizuki目录中使用以下指令检测是否有报错，确保网站上传后能正常运行。<br>
 

@@ -3,6 +3,7 @@ import I18nKey from "../../../i18n/i18nKey";
 import { i18n } from "../../../i18n/translation";
 import Icon from "../../misc/Icon.astro";
 import type { SkillCardProps } from "./types";
+import { calculateExperience } from "../../../utils/experience";
 
 const { skill } = Astro.props as SkillCardProps;
 
@@ -28,23 +29,38 @@ const getLevelWidth = (level: string) => {
 		case "expert":
 			return "100%";
 		case "advanced":
-			return "80%";
+			return "70%";
 		case "intermediate":
-			return "60%";
+			return "45%";
 		case "beginner":
-			return "40%";
+			return "20%";
 		default:
 			return "20%";
 	}
 };
 
+
+
 const formatExperience = (exp: { years: number; months: number }) => {
+
+	const now = new Date();
+
+	const currentYear = now.getFullYear();
+	const currentMonth = now.getMonth() + 1;
+
+	const calculatedYear=currentYear - exp.years;
+	const calculatedMonth=(calculatedYear*12+currentMonth - exp.months)%12;
+
 	const parts: string[] = [];
-	if (exp.years > 0) {
-		parts.push(`${exp.years} ${i18n(I18nKey.skillYears)}`);
+	
+	if (calculatedYear > 0) {
+		parts.push(`${calculatedYear} ${i18n(I18nKey.skillYears)}`);
 	}
-	if (exp.months > 0) {
-		parts.push(`${exp.months} ${i18n(I18nKey.skillMonths)}`);
+	if (calculatedMonth > 0) {
+		parts.push(`${calculatedMonth} ${i18n(I18nKey.skillMonths)}`);
+	}
+	if (calculatedYear == 0 && calculatedMonth == 0) {
+		parts.push(`${i18n(I18nKey.skillZeroMonth)}`);
 	}
 	return parts.join(" ");
 };
@@ -83,7 +99,7 @@ const formatExperience = (exp: { years: number; months: number }) => {
 					</span>
 				</div>
 				<p class="text-xs text-black/50 dark:text-white/50">
-					{formatExperience(skill.experience)}
+					{formatExperience(skill.startDate)}
 				</p>
 			</div>
 		</div>

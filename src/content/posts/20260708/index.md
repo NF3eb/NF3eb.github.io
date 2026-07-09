@@ -13,16 +13,17 @@ draft: false
 
 ## 第零步：准备工作
 ---
-- 安装Git
+- 安装Git<br>
 <u>[Git官网](https://git-scm.com/install/)</u><br>
-- 安装Node.js
+- 安装Node.js<br>
 <u>[Node.js官网](https://nodejs.org/)</u><br>
-- 创建一个GitHub账户
+- 创建一个GitHub账户<br>
 <small>~~大概率需要魔法上网~~</small><br>
-- 新建一个仓库
+- 新建一个仓库<br>
 可将仓库命名为<用户名>.github.io<br>
 - （可选）安装GitHub Desktop<br>
-如果使用GitBash执行指令push，pull，clone时出现这样的报错，大概率是Git的代理配置出了问题，可以用更改代理的方法解决，但是另一个更简单快捷的方法是使用 **GitHub Desktop**，GitHub Desktop会自动配制好我们的网络，而且图形化的操作窗口更加简单，适合新手使用。<u>[GitHub Desktop使用参考](https://blog.csdn.net/qq_53123067/article/details/138466344)</u><br>
+如果使用GitBash执行指令push，pull，clone时出现这样的报错，大概率是Git的代理配置出了问题，可以用更改代理的方法解决，但是另一个更简单快捷的方法是使用 **GitHub Desktop**，GitHub Desktop会自动配制好我们的网络，而且图形化的操作窗口更加简单，适合新手使用。<br>
+<u>[GitHub Desktop使用参考](https://blog.csdn.net/qq_53123067/article/details/138466344)</u><br>
 
 ```
 Failed to connect to github.com port 443 after 21052 ms: Could not connect to server
@@ -54,7 +55,8 @@ git clone https://github.com/LyraVoid/Mizuki.git
 ```
 
 <small>若出现443报错可安装Github Desktop解决</small><br>
-此时Mizuki的仓库就已经clone到本地了，不过，在更改它的文件之前，我们还要先删除原来的.git信息，否则.git里面包含的提交url仍然是`https://github.com/LyraVoid/Mizuki.git`，进而导致我们之后push的时候就会默认push到Mizuki的仓库而不是我们自己的仓库导致访问被拒绝。具体地，按照以下步骤进行操作。<br>
+此时Mizuki的仓库就已经clone到本地了，不过，在更改它的文件之前，我们还要先删除原来的.git信息，否则.git里面包含的提交url仍然是`https://github.com/LyraVoid/Mizuki.git`，进而导致我们之后push的时候就会默认push到Mizuki的仓库而不是我们自己的仓库导致访问被拒绝。<br>
+具体地，按照以下步骤进行操作。<br>
 进入Mizuki目录：<br>
 
 ```bash
@@ -98,12 +100,18 @@ pnpm install
 pnpm dev
 ```
 
-<small>~~复制是`Ctrl+Insert`粘贴是`Shift+Insert`wwwwww~~</small><br>
-稍等片刻后，便可看到本地开发服务器成功启动，在返回的信息中可以看到服务器已经成功在本地`http://localhost:4321/`启动（实际的端口号可能因人而异，比如我电脑上实际上是在端口3000开放的），将其复制后粘贴进浏览器即可看见本地启动的网站。**（不要关闭GitBash窗口！！！）** <br>
+稍等片刻后，便可看到本地开发服务器成功启动，从返回的信息中可以看到服务器已经成功在本地`http://localhost:4321/`启动（实际的端口号可能因人而异，比如我电脑上实际上是在端口3000开放的），将其复制后粘贴进浏览器即可看见本地启动的网站。**（不要关闭GitBash窗口！！！）** <br>
 
 ## 第三步：配置你的网页
 ---
 <big>参考Mizuki主题的<u>**[官网文档](https://docs.mizuki.mysqil.com/guide/intro/)**</u>进行配置。</big><br>
+更改本地仓库的文件后进行保存，浏览器中的网页会自动刷新，即刻展示修改内容（文章修改可能会卡一会）。<br>
+配置完后可以在Mizuki目录中使用以下指令检测是否有报错，确保网站上传后能正常运行。<br>
+
+```bash
+pnpm build
+```
+
 - tips1：官网文档里“基础布局”和“文章布局”栏目中包含的`src/config.ts`文件，实际上指的是`src\config`文件夹，`siteConfig`对象指的是这个文件夹中的文件`siteConfig.ts`，其他同理。此外，“文章布局”栏目中`toc`对象放在文件`siteConfig.ts`之中。<small>~~(好乱啊wwwww)~~</small><br>
 - tips2：如果需要更改界面文字，可以到`\src\i18n\languages\zh_CN.ts`中更改。<br>
 - 补：build阶段若出现以下的报错：<br>
@@ -114,18 +122,11 @@ WebAssembly.Memory.grow(): Maximum memory size exceeded
 ```
 
 有可能是修改了`\src\data\skills.ts`导致的。<br>
-初步判断在`skills.ts`中`simple-icons:nginx`、`simple-icons:firebase`、`simple-icons:sqlite`、`simple-icons:express`这四个icon需要有至少一个icon**被包含在文件中**，才能正常运行。<small>~~（这很诡异你知道吗）>~~</small><br>
-解决方式：在文件开头加上以下的注释。<small>~~（？？？）>~~</small><br>
+初步判断在`skills.ts`中`simple-icons:nginx`、`simple-icons:firebase`、`simple-icons:sqlite`、`simple-icons:express`这四个icon需要有至少一个icon**被包含在文件中**，才能正常运行。<br>
+解决方式：在文件`skills.ts`开头加上以下的注释。<small>~~（这很诡异你知道吗）~~</small><br>
 
 ```TypeScript
 // "simple-icons:sqlite"
-```
-
-更改本地仓库的文件后进行保存，浏览器中的网页会自动刷新，即刻展示修改内容（文章修改可能会卡一会）。<br>
-配置完后可以在Mizuki目录中使用以下指令检测是否有报错，确保网站上传后能正常运行。<br>
-
-```bash
-pnpm build
 ```
 
 ## 第四步：提交到GitHub
@@ -176,11 +177,12 @@ jobs:
 
 ```bash
 git add .
-git commit -m "Update message.yml"
+git commit -m "Update message"
 git push
 ```
+
 <small>若出现443报错可安装Github Desktop解决</small><br>
-提交完成之后，GitHub便会自动帮助我们build和deploy我们的网站。<br>
+提交完成之后，GitHub便会自动帮助我们build和deploy网站。<br>
 build和deploy都成功后，我们便可以到<用户名>.github.io上去访问自己的个人网站啦。<br>
 后续维护时，也只需执行以上三段指令，即可将本地的进度同步到GitHub Pages。<br>
 

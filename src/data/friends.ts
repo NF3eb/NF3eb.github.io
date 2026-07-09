@@ -18,7 +18,7 @@ export const friendsData: FriendItem[] = [
 		imgurl: "https://img.evanser.top/page-img/%E5%A4%B4%E5%83%8F.png",
 		desc: "学生时代开始的blog",
 		siteurl: "https://www.evanser.top/",
-		tags: ["csdog（？）"],
+		tags: ["硬件工程","计算机体系结构","生活记录"],
 	},
 	{
 		id: 2,
@@ -27,6 +27,14 @@ export const friendsData: FriendItem[] = [
 		desc: "一个专注于MAD与三维动画创作研究的学生社团。",
 		siteurl: "https://7thcv.cn/",
 		tags: ["媒体制作"],
+	},
+	{
+		id: 3,
+		title: "Lucian",
+		imgurl: "https://lucian-prog.github.io/images/avatar.png",
+		desc: "记录数字 IC、计算机体系结构与硬件工程学习过程",
+		siteurl: "https://lucian-prog.github.io/",
+		tags: ["硬件工程","计算机体系结构","数字 IC"],
 	},
 ];
 

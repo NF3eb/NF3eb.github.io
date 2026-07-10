@@ -61,4 +61,4 @@ src/data/bilibili-data.json
 *.vtube.json
 
 #personal backup
-.bak
+.personalbak

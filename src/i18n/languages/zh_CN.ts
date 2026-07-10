@@ -33,7 +33,7 @@ export const zh_CN: Translation = {
 	[Key.friendsNoResults]: "未找到匹配的友链",
 	[Key.friendsVisit]: "访问",
 	[Key.friendsCopyLink]: "复制链接",
-	[Key.friendsCopySuccess]: "已复制",
+	[Key.friendsCopySuccess]: "已复制✓",
 	[Key.friendsTags]: "标签",
 	[Key.untitled]: "无标题",
 	[Key.uncategorized]: "未分类",
@@ -100,7 +100,7 @@ export const zh_CN: Translation = {
 	[Key.diaryNoResults]: "没有匹配的短文",
 	[Key.diaryCount]: "条短文",
 
-	[Key.diaryTips]: "只展示最近30条短文",
+	[Key.diaryTips]: "仅展示最近30条短文",
 	[Key.diaryMinutesAgo]: "分钟前",
 	[Key.diaryHoursAgo]: "小时前",
 	[Key.diaryDaysAgo]: "天前",
@@ -354,7 +354,7 @@ export const zh_CN: Translation = {
 	[Key.siteStatsTagCount]: "标签",
 	[Key.siteStatsTotalWords]: "总字数",
 	[Key.siteStatsRunningDays]: "运行天数",
-	[Key.siteStatsLastUpdate]: "最后活动",
+	[Key.siteStatsLastUpdate]: "最新文章",
 	[Key.siteStatsDaysAgo]: "{days} 天前",
 	[Key.siteStatsDays]: "{days} 天",
 

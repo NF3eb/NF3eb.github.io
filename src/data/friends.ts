@@ -14,7 +14,7 @@ export interface FriendItem {
 export const friendsData: FriendItem[] = [
 	{
 		id: 1,
-		title: "Evans",
+		title: "Evans的小屋",
 		imgurl: "https://img.evanser.top/page-img/%E5%A4%B4%E5%83%8F.png",
 		desc: "学生时代开始的blog",
 		siteurl: "https://www.evanser.top/",

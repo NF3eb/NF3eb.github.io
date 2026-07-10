@@ -1,0 +1,106 @@
+---
+import Image from "@components/atoms/Image/Image.astro";
+
+interface Props {
+	game: {
+		title: string;
+		cover: string;
+		link: string;
+		description: string;
+		playtime: string;
+		duration: string;
+		genre: string[];
+	};
+	playtimeLabel: string;
+	durationLabel: string;
+}
+
+const { game, playtimeLabel, durationLabel } = Astro.props;
+
+---
+
+<div
+	class="group relative bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) overflow-hidden hover:shadow-lg"
+>
+	<div class="relative game-cover-container aspect-16/9 overflow-hidden">
+		<a
+			href={game.link}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="block w-full h-full"
+		>
+			<Image
+				src={game.cover}
+				alt={game.title}
+				class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
+				widths={[200, 400, 600]}
+				sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+			/>
+			<div
+				class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+			>
+				<div class="absolute inset-0 flex items-center justify-center">
+					<div
+						class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center"
+					>
+						<svg
+							class="w-6 h-6 text-gray-800 ml-1"
+							fill="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path d="M8 5v14l11-7z"></path>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</a>
+
+	</div>
+
+	<div class="p-3">
+		<h3
+			class="text-sm font-bold text-black/90 dark:text-white/90 mb-1 leading-tight"
+		>
+			{game.title}
+		</h3>
+		<p
+			class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2"
+			title={game.description}
+		>
+			{game.description}
+		</p>
+
+		<div class="space-y-1 text-xs">
+			<div class="flex justify-between items-center">
+				<span class="text-black/50 dark:text-white/50 shrink-0">
+					{playtimeLabel}
+				</span>
+				<span
+					class="text-black/70 dark:text-white/70 truncate ml-2 text-right"
+				>
+					{game.playtime}
+				</span>
+			</div>
+			<div class="flex justify-between items-start">
+				<span class="text-black/50 dark:text-white/50 shrink-0 mt-0.5">
+					{durationLabel}
+				</span>
+				<span
+					class="text-black/70 dark:text-white/70 text-right ml-2 line-clamp-2 wrap-break-word"
+					title={game.duration}
+				>
+					{game.duration}
+				</span>
+			</div>
+			<div class="flex flex-wrap gap-1 mt-2">
+				{
+					game.genre.map((g) => (
+						<span class="px-1.5 py-0.5 bg-(--btn-regular-bg) text-black/70 dark:text-white/70 rounded text-xs">
+							{g}
+						</span>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</div>

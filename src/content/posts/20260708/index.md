@@ -122,10 +122,10 @@ WebAssembly.Memory.grow(): Maximum memory size exceeded
 ```
 
 有可能是修改了`\src\data\skills.ts`导致的。<br>
-初步判断在`skills.ts`中`simple-icons:nginx`、`simple-icons:firebase`、`simple-icons:sqlite`、`simple-icons:express`这四个icon需要有至少一个icon**被包含在文件中**，才能正常运行。<br>
+初步判断在`skills.ts`中`simple-icons:nginx`、`simple-icons:firebase`、`simple-icons:sqlite`、`simple-icons:express`这四个icon的**文本**需要有至少一个**文本**被包含在文件中，才能正常运行。<br>
 解决方式：在文件`skills.ts`开头加上以下的注释。<small>~~（这很诡异你知道吗）~~</small><br>
 
-```TypeScript
+```typescript
 // "simple-icons:sqlite"
 ```
 

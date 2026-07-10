@@ -27,6 +27,7 @@ export const siteConfig: SiteConfig = {
 		albums: true, // 相册页面开关
 		devices: true, // 设备页面开关
 		aiTools: false, // AI 工具页面开关
+		game : true,// 游戏页面开关
 	},
 
 	// 顶栏标题配置
@@ -68,7 +69,9 @@ export const siteConfig: SiteConfig = {
 	anime: {
 		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置，"bilibili" 使用Bilibili API
 	},
-
+	game: {
+		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置，"bilibili" 使用Bilibili API
+	},
 	// 日记页面 Memos API 地址，留空则使用静态数据
 	diaryApiUrl: "",
 
@@ -80,7 +83,7 @@ export const siteConfig: SiteConfig = {
 		// 是否启用布局切换功能
 		enable: false,
 		// 是否允许用户切换布局
-		allowSwitch: false,
+		allowSwitch: true,
 		// 文章列表页分类导航条配置
 		categoryBar: {
 			enable: true, // 是否在文章列表页显示分类导航条

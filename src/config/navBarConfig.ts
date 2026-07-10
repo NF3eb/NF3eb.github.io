@@ -141,8 +141,18 @@ export const navBarConfig: NavBarConfig = {
       		icon: "material-symbols:book",
       		external: false,
    		},
-		LinkPreset.Albums,
-		
+		{
+			name: "相册",
+			url: "/albums/",
+			icon: "material-symbols:photo-library",
+			external: false,
+		},
+		{
+	    	name: "游戏",
+      		url: "/game/",
+      		icon: "material-symbols:videogame-asset",
+      		external: false,
+   		},
 		// 自定义一级下拉菜单示例：关于相关
 		{
 			name: "更多",

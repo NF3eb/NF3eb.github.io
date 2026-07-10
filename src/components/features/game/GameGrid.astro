@@ -1,0 +1,67 @@
+---
+import GameCard from "./GameCard.astro";
+
+interface GameItem {
+	title: string;
+	cover: string;
+	link: string;
+	description: string;
+	playtime: string;
+	duration: string;
+	genre: string[];
+}
+
+interface Props {
+	visibleGameList: GameItem[];
+	hiddenGameList: GameItem[];
+	playtimeLabel: string;
+	durationLabel: string;
+}
+
+const { visibleGameList, hiddenGameList, playtimeLabel, durationLabel } =
+	Astro.props;
+
+const hasHiddenItems = hiddenGameList.length > 0;
+---
+
+<div
+	id="game-list-container"
+	class="game-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300"
+>
+	{
+		visibleGameList.map((game) => {
+			return (
+				<GameCard
+					game={game}
+					playtimeLabel={playtimeLabel}
+					durationLabel={durationLabel}
+				/>
+			);
+		})
+	}
+</div>
+
+<template id="game-lazy-store">
+	{
+		hiddenGameList.map((game) => {
+			return (
+				<GameCard
+					game={game}
+					playtimeLabel={playtimeLabel}
+					durationLabel={durationLabel}
+				/>
+			);
+		})
+	}
+</template>
+
+{
+	hasHiddenItems && (
+		<div
+			id="infinite-scroll-sentinel"
+			class="w-full h-20 flex items-center justify-center mt-8"
+		>
+			<div class="game-loading-spinner w-8 h-8 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
+		</div>
+	)
+}

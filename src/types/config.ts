@@ -42,6 +42,7 @@ export interface SiteConfig {
 		albums: boolean; // 相册页面开关
 		devices: boolean; // 设备页面开关
 		aiTools: boolean; // AI 工具页面开关
+		game: boolean; // 游戏页面开关
 	};
 
 	// 文章列表布局配置
@@ -88,7 +89,10 @@ export interface SiteConfig {
 	anime?: {
 		mode?: "bangumi" | "local" | "bilibili"; // 番剧页面模式
 	};
-
+	// 添加游戏页面配置
+	game?: {
+		mode?: "bangumi" | "local" | "bilibili"; // 番剧页面模式
+	};
 	// 日记页面 Memos API 地址，客户端 fetch 获取动态数据
 	diaryApiUrl?: string;
 

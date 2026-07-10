@@ -1,0 +1,128 @@
+.game-card-base {
+  container-type: inline-size;
+}
+
+.game-grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  transition: gap 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === Grid Mode === */
+.game-grid-container.game-grid-mode {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@container (min-width: 30rem) {
+  .game-grid-container.game-grid-mode {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@container (min-width: 48rem) {
+  .game-grid-container.game-grid-mode {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@container (min-width: 64rem) {
+  .game-grid-container.game-grid-mode {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* === List Mode === */
+.game-grid-container.game-grid-mode {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@container (min-width: 30rem) {
+  .game-grid-container.game-grid-mode {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@container (min-width: 48rem) {
+  .game-grid-container.game-grid-mode {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@container (min-width: 64rem) {
+  .game-grid-container.game-grid-mode {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+
+
+
+.game-filter-container {
+  display: block;
+}
+
+.game-filter-tag {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line-divider);
+  border-radius: var(--radius-large);
+  background: var(--btn-regular-bg);
+  color: var(--btn-content);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.game-filter-tag:hover:not(.game-active) {
+  background: var(--btn-hover-bg);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+.game-filter-tag.game-active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.game-grid-container [data-game-status].game-hidden {
+  display: none !important;
+}
+
+.game-grid-container [data-game-status] {
+  transition:
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.15s ease-out;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 350px;
+}
+
+.game-grid-container [data-game-status].game-fade-out {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.game-grid-container [data-game-status].game-fade-in {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.game-grid-container [data-game-status].game-fade-in-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.game-loading-spinner {
+  border-right-color: var(--primary);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

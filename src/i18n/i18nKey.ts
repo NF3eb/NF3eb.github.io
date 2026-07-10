@@ -56,6 +56,7 @@ enum I18nKey {
 	friendsCopySuccess = "friendsCopySuccess",
 	friendsTags = "friendsTags",
 	anime = "anime",
+	game = "game",
 	diary = "diary",
 
 	// 番剧页面
@@ -75,6 +76,18 @@ enum I18nKey {
 	animeEmptyLocal = "animeEmptyLocal",
 	animeConfigBilibili = "animeConfigBilibili",
 	animeConfigBangumi = "animeConfigBangumi",
+
+	// 番剧页面
+	gameTitle = "gameTitle",
+	gameSubtitle = "gameSubtitle",
+	gamePlaytime = "gamePlaytime",
+	gameDuration = "gameDuration",
+	gameEmpty = "gameEmpty",
+	gameEmptyBangumi = "gameEmptyBangumi",
+	gameEmptyBilibili = "gameEmptyBilibili",
+	gameEmptyLocal = "gameEmptyLocal",
+	gameConfigBilibili = "gameConfigBilibili",
+	gameConfigBangumi = "gameConfigBangumi",
 
 	// 短文页面
 	diarySubtitle = "diarySubtitle",

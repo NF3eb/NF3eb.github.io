@@ -1,7 +1,7 @@
 ---
-import "../styles/anime.css";
+import "../styles/game.css";
 
-import { AnimeFilters, AnimeGrid } from "@components/features/anime";
+import { GameFilters, GameGrid } from "@components/features/game";
 import { PageHeader } from "@components/features/page-header";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 
@@ -9,13 +9,13 @@ import { siteConfig } from "../config";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import {
-	getAnimeList,
-	getAnimeSourceConfigs,
+	getGameList,
+	getGameSourceConfigs,
 	getStatusMap,
-} from "../utils/anime-data";
+} from "../utils/game-data";
 import { widgetManager } from "../utils/widget-manager";
 
-if (!siteConfig.featurePages.anime) {
+if (!siteConfig.featurePages.game) {
 	return Astro.redirect("/404/");
 }
 
@@ -24,26 +24,26 @@ const hasRightSidebars =
 	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length >
 		0;
 
-const ANIME_MODE = siteConfig.anime?.mode || "bangumi";
-const sourceConfigs = getAnimeSourceConfigs();
-const { animeList, currentConfig } = getAnimeList(ANIME_MODE, sourceConfigs);
+const GAME_MODE = siteConfig.game?.mode || "bangumi";
+const sourceConfigs = getGameSourceConfigs();
+const { gameList, currentConfig } = getGameList(GAME_MODE, sourceConfigs);
 
 let emptyDescription = "";
 let showEmptyState = false;
 
 if (
-	ANIME_MODE === "bilibili" &&
+	GAME_MODE === "bilibili" &&
 	(!siteConfig.bilibili?.vmid || siteConfig.bilibili.vmid === "")
 ) {
 	showEmptyState = true;
-	emptyDescription = i18n(I18nKey.animeConfigBilibili);
+	emptyDescription = i18n(I18nKey.gameConfigBilibili);
 } else if (
-	ANIME_MODE === "bangumi" &&
+	GAME_MODE === "bangumi" &&
 	siteConfig.bangumi?.userId === "your-user-id"
 ) {
 	showEmptyState = true;
-	emptyDescription = i18n(I18nKey.animeConfigBangumi);
-} else if (animeList.length === 0) {
+	emptyDescription = i18n(I18nKey.gameConfigBangumi);
+} else if (gameList.length === 0) {
 	showEmptyState = true;
 	if (
 		currentConfig &&
@@ -52,48 +52,32 @@ if (
 		currentConfig.emptyDescription
 	) {
 		emptyDescription = currentConfig.emptyDescription;
-	} else if (ANIME_MODE === "local") {
-		emptyDescription = i18n(I18nKey.animeEmptyLocal);
+	} else if (GAME_MODE === "local") {
+		emptyDescription = i18n(I18nKey.gameEmptyLocal);
 	} else {
-		emptyDescription = "No anime data found.";
+		emptyDescription = "No game data found.";
 	}
 }
-
-const statusMap = getStatusMap();
 const INITIAL_DISPLAY_COUNT = 24;
-const visibleAnimeList = animeList.slice(0, INITIAL_DISPLAY_COUNT);
-const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
-const showExtendedFilters = ANIME_MODE === "bangumi";
-const emptyMessage = i18n(I18nKey.animeEmpty);
+const visibleGameList = gameList.slice(0, INITIAL_DISPLAY_COUNT);
+const hiddenGameList = gameList.slice(INITIAL_DISPLAY_COUNT);
+const showExtendedFilters = GAME_MODE === "bangumi";
+const emptyMessage = i18n(I18nKey.gameEmpty);
 ---
 
 <MainGridLayout
-	title={i18n(I18nKey.anime)}
-	description={i18n(I18nKey.animeSubtitle)}
+	title={i18n(I18nKey.game)}
+	description={i18n(I18nKey.gameSubtitle)}
 >
 	<div
 		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
 	>
-		<div class="card-base anime-card-base z-10 px-9 py-6 relative w-full">
+		<div class="card-base game-card-base z-10 px-9 py-6 relative w-full">
 			<div class="relative w-full mb-8">
 				<PageHeader
-					title={i18n(I18nKey.animeTitle)}
-					subtitle={i18n(I18nKey.animeSubtitle)}
+					title={i18n(I18nKey.gameTitle)}
+					subtitle={i18n(I18nKey.gameSubtitle)}
 				/>
-
-				<div class="mb-6">
-					<AnimeFilters
-						filterAllLabel={i18n(I18nKey.animeFilterAll)}
-						statusWatchingLabel={i18n(I18nKey.animeStatusWatching)}
-						statusPlannedLabel={i18n(I18nKey.animeStatusPlanned)}
-						statusCompletedLabel={i18n(
-							I18nKey.animeStatusCompleted,
-						)}
-						statusOnHoldLabel={i18n(I18nKey.animeStatusOnHold)}
-						statusDroppedLabel={i18n(I18nKey.animeStatusDropped)}
-						showExtendedFilters={showExtendedFilters}
-					/>
-				</div>
 			</div>
 
 			<div class="mb-8">
@@ -109,12 +93,11 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 							</p>
 						</div>
 					) : (
-						<AnimeGrid
-							visibleAnimeList={visibleAnimeList}
-							hiddenAnimeList={hiddenAnimeList}
-							statusMap={statusMap}
-							yearLabel={i18n(I18nKey.animeYear)}
-							studioLabel={i18n(I18nKey.animeStudio)}
+						<GameGrid
+							visibleGameList={visibleGameList}
+							hiddenGameList={hiddenGameList}
+							playtimeLabel={i18n(I18nKey.gamePlaytime)}
+							durationLabel={i18n(I18nKey.gameDuration)}
 						/>
 					)
 				}
@@ -124,19 +107,19 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 
 	<script is:inline define:vars={{ hasRightSidebars }}>
 		(function () {
-			const containerId = "anime-list-container";
+			const containerId = "game-list-container";
 
-			function updateAnimeListLayout(layout, shouldAnimate = true) {
-				const animeListContainer = document.getElementById(containerId);
-				if (!animeListContainer) {
+			function updateGameListLayout(layout, shouldAnimate = true) {
+				const gameListContainer = document.getElementById(containerId);
+				if (!gameListContainer) {
 					return;
 				}
-				animeListContainer.dataset.currentLayout = layout;
+				gameListContainer.dataset.currentLayout = layout;
 
-				const animeItems = Array.from(
-					document.querySelectorAll("[data-anime-status]"),
+				const gameItems = Array.from(
+					document.querySelectorAll("[data-game-status]"),
 				);
-				const visibleItems = animeItems.filter(
+				const visibleItems = gameItems.filter(
 					(item) => item.offsetParent !== null,
 				);
 				const firstPositions = new Map();
@@ -153,19 +136,19 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 				}
 
 				const style = document.createElement("style");
-				style.innerHTML = `.anime-grid-container .group { transition: none !important; }`;
+				style.innerHTML = `.game-grid-container .group { transition: none !important; }`;
 				document.head.appendChild(style);
-				animeListContainer.classList.remove(
-					"anime-list-mode",
-					"anime-grid-mode",
+				gameListContainer.classList.remove(
+					"game-list-mode",
+					"game-grid-mode",
 				);
-				animeListContainer.classList.remove(
+				gameListContainer.classList.remove(
 					"grid-cols-1",
 					"md:grid-cols-2",
 					"lg:grid-cols-3",
 				);
 				if (layout === "grid") {
-					animeListContainer.classList.add("anime-grid-mode");
+					gameListContainer.classList.add("game-grid-mode");
 					if (hasRightSidebars) {
 						const rightSidebar = document.querySelector(
 							".right-sidebar-container",
@@ -181,11 +164,7 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 						mainGrid.classList.add("two-column-layout");
 					}
 				} else {
-					animeListContainer.classList.add("anime-list-mode");
-					animeListContainer.classList.add(
-						"grid-cols-1",
-						"lg:grid-cols-2",
-					);
+					gameListContainer.classList.add("game-grid-mode");
 					if (hasRightSidebars) {
 						const rightSidebar = document.querySelector(
 							".right-sidebar-container",
@@ -204,7 +183,7 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 					}
 				}
 
-				void animeListContainer.offsetHeight;
+				void gameListContainer.offsetHeight;
 				if (!shouldAnimate) {
 					if (style.parentNode) {
 						style.parentNode.removeChild(style);
@@ -244,7 +223,7 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 						item.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
 					});
 
-					void animeListContainer.offsetHeight;
+					void gameListContainer.offsetHeight;
 					requestAnimationFrame(() => {
 						visibleItems.forEach((item) => {
 							item.style.transition =
@@ -267,16 +246,16 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 				return document.documentElement.getAttribute("data-post-list-layout-enabled") !== "false";
 			}
 
-			function initAnimeLayout() {
-				const animeListContainer = document.getElementById(containerId);
-				if (!animeListContainer) {
+			function initGameLayout() {
+				const gameListContainer = document.getElementById(containerId);
+				if (!gameListContainer) {
 					return false;
 				}
 				const currentLayout =
 					(isPostListLayoutEnabled() ? localStorage.getItem("postListLayout") : null) || "list";
-				updateAnimeListLayout(currentLayout, false);
+				updateGameListLayout(currentLayout, false);
 				requestAnimationFrame(() => {
-					animeListContainer.classList.remove("opacity-0");
+					gameListContainer.classList.remove("opacity-0");
 				});
 				return true;
 			}
@@ -285,7 +264,7 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 			const maxRetries = 10;
 
 			function tryInit() {
-				if (initAnimeLayout()) {
+				if (initGameLayout()) {
 					return;
 				}
 				if (retryCount < maxRetries) {
@@ -297,13 +276,13 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 					setTimeout(tryInit, delay);
 				} else {
 					setTimeout(() => {
-						const animeListContainer =
+						const gameListContainer =
 							document.getElementById(containerId);
-						if (animeListContainer) {
+						if (gameListContainer) {
 							const currentLayout =
 								(isPostListLayoutEnabled() ? localStorage.getItem("postListLayout") : null) || "list";
-							updateAnimeListLayout(currentLayout, false);
-							animeListContainer.classList.remove("opacity-0");
+							updateGameListLayout(currentLayout, false);
+							gameListContainer.classList.remove("opacity-0");
 						}
 					}, 2000);
 				}
@@ -316,40 +295,40 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 			}
 
 			window.addEventListener("layoutChange", (event) => {
-				updateAnimeListLayout(event.detail.layout);
+				updateGameListLayout(event.detail.layout);
 			});
 		})();
 	</script>
 
 	<script is:inline>
-		if (typeof window.animeFilterEventListeners === "undefined") {
-			window.animeFilterEventListeners = [];
+		if (typeof window.gameFilterEventListeners === "undefined") {
+			window.gameFilterEventListeners = [];
 		}
 
 		function initFilterButtons() {
-			const filterTags = document.querySelectorAll(".anime-filter-tag");
+			const filterTags = document.querySelectorAll(".game-filter-tag");
 			const sentinel = document.getElementById(
 				"infinite-scroll-sentinel",
 			);
 			const listContainer = document.getElementById(
-				"anime-list-container",
+				"game-list-container",
 			);
-			const lazyStore = document.getElementById("anime-lazy-store");
-			window.animeFilterEventListeners.forEach((listener) => {
+			const lazyStore = document.getElementById("game-lazy-store");
+			window.gameFilterEventListeners.forEach((listener) => {
 				const [element, type, handler] = listener;
 				element.removeEventListener(type, handler);
 			});
-			window.animeFilterEventListeners = [];
+			window.gameFilterEventListeners = [];
 			filterTags.forEach((tag) => {
 				const clickHandler = function () {
-					if (this.classList.contains("anime-active")) {
+					if (this.classList.contains("game-active")) {
 						return;
 					}
 
 					filterTags.forEach((t) =>
-						t.classList.remove("anime-active"),
+						t.classList.remove("game-active"),
 					);
-					this.classList.add("anime-active");
+					this.classList.add("game-active");
 
 					if (
 						lazyStore &&
@@ -374,19 +353,19 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 					});
 
 					const status = this.getAttribute("data-status");
-					const animeItems = Array.from(
+					const gameItems = Array.from(
 						listContainer.children,
-					).filter((item) => item.hasAttribute("data-anime-status"));
+					).filter((item) => item.hasAttribute("data-game-status"));
 					const itemsToHide = [];
 					const itemsToShow = [];
 					const itemsToKeep = [];
-					animeItems.forEach((item) => {
+					gameItems.forEach((item) => {
 						const itemStatus =
-							item.getAttribute("data-anime-status");
+							item.getAttribute("data-game-status");
 						const shouldShow =
 							status === "all" || itemStatus === status;
 						const isCurrentlyVisible =
-							!item.classList.contains("anime-hidden");
+							!item.classList.contains("game-hidden");
 
 						if (shouldShow) {
 							isCurrentlyVisible
@@ -408,12 +387,12 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 					});
 					const runAnimation = () => {
 						itemsToHide.forEach((item) => {
-							item.classList.add("anime-hidden");
-							item.classList.remove("anime-fade-out");
+							item.classList.add("game-hidden");
+							item.classList.remove("game-fade-out");
 						});
 						itemsToShow.forEach((item) => {
-							item.classList.remove("anime-hidden");
-							item.classList.add("anime-fade-in");
+							item.classList.remove("game-hidden");
+							item.classList.add("game-fade-in");
 							item.style.transition = "none";
 						});
 						itemsToKeep.forEach((item) => {
@@ -449,8 +428,8 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 								item.style.transitionDelay = `${delay}ms`;
 
 								requestAnimationFrame(() => {
-									item.classList.remove("anime-fade-in");
-									item.classList.add("anime-fade-in-active");
+									item.classList.remove("game-fade-in");
+									item.classList.add("game-fade-in-active");
 								});
 							});
 
@@ -459,7 +438,7 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 									[...itemsToKeep, ...itemsToShow].forEach(
 										(item) => {
 											item.classList.remove(
-												"anime-fade-in-active",
+												"game-fade-in-active",
 											);
 											item.style.transition = "";
 											item.style.transform = "";
@@ -478,7 +457,7 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 					};
 					if (itemsToHide.length > 0) {
 						itemsToHide.forEach((item) =>
-							item.classList.add("anime-fade-out"),
+							item.classList.add("game-fade-out"),
 						);
 						setTimeout(runAnimation, 200);
 					} else {
@@ -487,7 +466,7 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 				};
 
 				tag.addEventListener("click", clickHandler);
-				window.animeFilterEventListeners.push([
+				window.gameFilterEventListeners.push([
 					tag,
 					"click",
 					clickHandler,
@@ -512,7 +491,7 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 							) {
 								const node = lazyStore.content.firstChild;
 								if (node.nodeType === 1) {
-									node.classList.add("anime-fade-in-active");
+									node.classList.add("game-fade-in-active");
 								}
 								fragment.appendChild(node);
 								movedCount++;

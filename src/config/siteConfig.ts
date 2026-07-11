@@ -83,7 +83,7 @@ export const siteConfig: SiteConfig = {
 		// 是否启用布局切换功能
 		enable: false,
 		// 是否允许用户切换布局
-		allowSwitch: true,
+		allowSwitch: false,
 		// 文章列表页分类导航条配置
 		categoryBar: {
 			enable: true, // 是否在文章列表页显示分类导航条

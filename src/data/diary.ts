@@ -17,26 +17,29 @@ const diaryData: DiaryItem[] = [
 		id: 1,
 		content:
 			"test",
-		date: "2026-07-06T12:00:00+08:00",
+		date: "2026-07-06",
+		location:"Earth",
+		mood:"MOOD",
+		tags:["thisIsATag"],
 	},
 	{
 		id: 2,
 		content:
 			"忙碌了两天的NF3eb师傅终于搭好了这个网站......",
-		date: "2026-07-07T22:21:19+08:00",
+		date: "2026-07-07",
 	},
 	{
 		id: 3,
 		content:
 			"神秘GPT5.5在GPT5.6发布后突然降智并捏造根本无法生效的修改方案导致我做新页面做了一个下午",
-		date: "2026-07-10T17:46:25+08:00",
+		date: "2026-07-10",
 	},
 ];
 
-// 获取日记列表（按时间倒序）
+// 获取日记列表（按id倒序）
 export const getDiaryList = (limit?: number) => {
 	const sortedData = [...diaryData].sort(
-		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+		(a, b) => b.id - a.id,
 	);
 
 	if (limit && limit > 0) {

@@ -100,7 +100,7 @@ export const zh_CN: Translation = {
 	[Key.diaryNoResults]: "没有匹配的短文",
 	[Key.diaryCount]: "条短文",
 
-	[Key.diaryTips]: "仅展示最近30条短文",
+	[Key.diaryTips]: "我也是有底线的TAT",
 	[Key.diaryMinutesAgo]: "分钟前",
 	[Key.diaryHoursAgo]: "小时前",
 	[Key.diaryDaysAgo]: "天前",

@@ -1,7 +1,6 @@
 // Skill data configuration file
 // Used to manage data for the skill display page
 // "simple-icons:sqlite"镇bug塔QAQ
-import { calculateExperience } from "@/utils/experience";
 export interface Skill {
 	id: string;
 	name: string;

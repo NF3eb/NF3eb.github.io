@@ -606,8 +606,7 @@ const bannerFormats = getImageFormats();
 				};
 			})();
 		</script>
-
-	<!-- 首页文字覆盖层 -->
+	<!-- 首页文字覆盖层（已禁用）
 	{siteConfig.banner.homeText?.enable && (
 		<div class={`banner-text-overlay absolute inset-0 z-20 flex items-center justify-center ${!showTextOverlay ? "hidden" : ""}`}>
 			<div class="w-4/5 lg:w-3/4 text-center mb-0">
@@ -639,8 +638,8 @@ const bannerFormats = getImageFormats();
 			</div>
 		</div>
 	)}
-
-	<!-- 非首页页面标题覆盖层（持久化容器，JS 动态填充文本） -->
+	-->
+	<!-- 非首页页面标题覆盖层（持久化容器，JS 动态填充文本）（已禁用） 
 	<div id="banner-page-overlay" class="banner-page-overlay hidden lg:flex absolute inset-0 z-20 pointer-events-none">
 		<div class="flex flex-col items-center justify-center w-full text-center px-4">
 			<h2 id="page-overlay-title" class="page-overlay-title text-3xl lg:text-5xl text-white font-bold drop-shadow-lg px-4"></h2>
@@ -660,7 +659,7 @@ const bannerFormats = getImageFormats();
 			</div>
 		</div>
 	</div>
-
+	-->
 	<!-- 水波纹效果 -->
 	{showWave && (
 		<div
@@ -747,7 +746,7 @@ const bannerFormats = getImageFormats();
 		</a>
 	)}
 </div>
-
+<!-- 
 <style>
 	/* Banner 文本样式 */
 	.banner-title {
@@ -774,3 +773,4 @@ const bannerFormats = getImageFormats();
 		}
 	}
 </style>
+-->

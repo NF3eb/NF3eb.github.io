@@ -1,11 +1,14 @@
 ---
 title: 基于Astro+Mizuki+GitHub Pages的自定义免费博客网站建站过程
-published: 2026-07-08
+published: 2026-07-08T14:58:45
+updated: 2026-07-11T15:35:45
 description: "一个noob一步步探索建个人博客的记录和教程（？"
 image: "./133535742_p0_master1200.jpg"
 tags: ["记录", "教程"]
 category: 教程
+pinned: false
 draft: false
+author: NF3eb
 ---
 
 
@@ -13,23 +16,21 @@ draft: false
 
 ## 第零步：准备工作
 ---
-- 安装Git<br>
-<u>[Git官网](https://git-scm.com/install/)</u><br>
-- 安装Node.js<br>
-<u>[Node.js官网](https://nodejs.org/)</u><br>
+我们需要安装Git，Nodejs，以及准备一个GitHub账号，并且创建一个自己的仓库用于存放我们的代码，这样我们的博客便托管在GitHub上（甚至服务器都借用的GitHub的不用自己掏钱了XD）。<br>
+- [安装Git](https://git-scm.com/install/)<br>
+- [安装Node.js>=22](https://nodejs.org/)<br>
 - 创建一个GitHub账户<br>
-<small>~~大概率需要魔法上网~~</small><br>
 - 新建一个仓库<br>
-可将仓库命名为<用户名>.github.io<br>
+<small>可将仓库命名为<用户名>.github.io</small><br>
 - （可选）安装GitHub Desktop<br>
-如果使用GitBash执行指令push，pull，clone时出现这样的报错，大概率是Git的代理配置出了问题，可以用更改代理的方法解决，但是另一个更简单快捷的方法是使用 **GitHub Desktop**，GitHub Desktop会自动配制好我们的网络，而且图形化的操作窗口更加简单，适合新手使用。<br>
-<u>[GitHub Desktop使用参考](https://blog.csdn.net/qq_53123067/article/details/138466344)</u><br>
+如果使用GitBash执行指令push，pull，clone时出现这样的报错：<br>
 
 ```
 Failed to connect to github.com port 443 after 21052 ms: Could not connect to server
 ```
 
-我们需要安装Git，Nodejs，以及准备一个GitHub账号，并且创建一个自己的仓库用于存放我们的代码，这样我们的博客便托管在GitHub上（甚至服务器都借用的GitHub的不用自己掏钱了XD）。<br>
+大概率是Git的代理配置出了问题，可以用更改代理的方法解决，但是另一个更简单快捷的方法是使用 **GitHub Desktop**，GitHub Desktop会自动配制好我们的网路，而且图形化的操作窗口更加简单，适合新手使用。<br>
+[GitHub Desktop使用参考](https://blog.csdn.net/qq_53123067/article/details/138466344)<br>
 安装完成后，可以Win+R调出cmd输入以下指令查看git和nodejs是否正确安装。<br>
 
 ```cmd
@@ -177,7 +178,7 @@ jobs:
 
 ```bash
 git add .
-git commit -m "Update message"
+git commit -m "Summary message"
 git push
 ```
 
@@ -188,4 +189,9 @@ build和deploy都成功后，我们便可以到<用户名>.github.io上去访问
 
 ## 后记
 ---
-咕咕咕（还没开始写QAQ<br>
+### 创建这个网站的目的:
+<small>~~呆在家太无聊了~~</small><br>
+放假前看到这篇文章：[基于Hexo+Github的自定义免费博客网站建站过程](https://soapsama.cn/blog/%E5%9F%BA%E4%BA%8Ehexogithub%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%8D%E8%B4%B9%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%99%E8%BF%87%E7%A8%8B/)<br>
+然后一时兴起也想搭建自己的blog，就用呆在家的几天照着文档部署了GitHubPages，再借此熟悉一下git的操作。因为自己也是萌新，而且<u>**完全**</u>没有学过前端开发，解决方案基本都是问AI的<small>~~（虽然大部分解决方案都无法实现还得是自己来摸索）~~</small>，所以严格来说这篇文章不能算是一篇教程，相对而言，他更像是一种记录，希望也能帮助到其他人。<br>
+此外，我也希望能给我之后做的东西有一个归宿——而个人blog正是一个完美的容器：任何事情，从视频，硬件技术，到游戏，追番，~~打舞萌~~，甚至平时内心的独白都能塞进这个blog里面，也许是为了满足自己的分享欲，也许是为自己正在做的事情增添一份动力，总之先开个头吧。<br>
+我还是不善于文字表达，后记就写这么多吧qwq。<br>

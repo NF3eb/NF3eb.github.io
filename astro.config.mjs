@@ -43,13 +43,13 @@ export default defineConfig({
 			styles: ["normal", "italic"],
 		},
 		{
-			name: "ZenMaruGothic-Medium",
+			name: "MarukoGothicCJKsc-Medium",
 			cssVariable: "--font-body",
 			provider: fontProviders.local(),
 			options: {
 				variants: [
 					{
-						src: ["./src/assets/fonts/ZenMaruGothic-Medium.ttf"],
+						src: ["./src/assets/fonts/MarukoGothicCJKsc-Medium.ttf"],
 						weight: "500",
 						style: "normal",
 					},

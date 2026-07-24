@@ -47,8 +47,9 @@ const formatExperience = (exp: { years: number; months: number }) => {
 	const currentYear = now.getFullYear();
 	const currentMonth = now.getMonth() + 1;
 
-	const calculatedYear=currentYear - exp.years;
-	const calculatedMonth=(calculatedYear*12+currentMonth - exp.months)%12;
+	const totalMonths=(currentYear-exp.years)*12 +(currentMonth-exp.months);
+	const calculatedYear=Math.floor(totalMonths / 12);
+	const calculatedMonth=totalMonths%12;
 
 	const parts: string[] = [];
 	

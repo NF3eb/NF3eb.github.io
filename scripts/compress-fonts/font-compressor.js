@@ -29,7 +29,7 @@ export async function compressFonts() {
 			return;
 		}
 
-		const distFontDir = path.join(distDir, "assets/font");
+		const distFontDir = path.join(distDir, "_astro/fonts");
 		if (!fs.existsSync(distFontDir)) {
 			fs.mkdirSync(distFontDir, { recursive: true });
 		}
@@ -51,7 +51,6 @@ export async function compressFonts() {
 			for (const fontFile of fontConfig.files) {
 				const fontSrc = path.join(
 					ROOT_DIR,
-					"public/assets/font",
 					fontFile,
 				);
 				const ext = path.extname(fontFile).toLowerCase();

@@ -33,6 +33,9 @@ import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkFixGithubAdmonitions } from "./src/plugins/remark-fix-github-admonitions.js";
 import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
 
+import fontOptimizer from "./scripts/compress-fonts/font-optimizer.js";
+
+
 // https://astro.build/config
 export default defineConfig({
 	fonts: [
@@ -173,6 +176,7 @@ export default defineConfig({
 		}),
 		sitemap(),
 		mdx(),
+		fontOptimizer(),
 	],
 	markdown: {
 		processor: unified({

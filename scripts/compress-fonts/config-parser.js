@@ -27,44 +27,84 @@ export function getLang() {
 /**
  * 提取字体配置（只返回 enableCompress=true 且有 localFonts 的字体）
  */
+// export function getFontConfigs() {
+// 	// const content = readSiteConfig();
+
+// 	const configPath = path.join(ROOT_DIR, "astro.config.mjs");
+// 	const content = fs.readFileSync(configPath, "utf-8");
+
+// 	const fontConfigMatch = content.match(/font:\s*\{([\s\S]*?)\n\t\},/);
+// 	if (!fontConfigMatch) {
+// 		console.log("⚠ Font config not found, using default settings");
+// 		return [];
+// 	}
+
+// 	const fontConfigStr = fontConfigMatch[1];
+// 	const fonts = [];
+// 	const fontTypes = ["asciiFont", "cjkFont"];
+
+// 	for (const fontType of fontTypes) {
+// 		const regex = new RegExp(`${fontType}:\\s*\\{([\\s\\S]*?)\\}`, "m");
+// 		const match = fontConfigStr.match(regex);
+// 		if (!match) continue;
+
+// 		const config = match[1];
+
+// 		// const compressMatch = config.match(/enableCompress:\s*(true|false)/);
+// 		// const enableCompress = compressMatch ? compressMatch[1] === "true" : false;
+
+// 		const localFontsMatch = config.match(/localFonts:\s*\[(.*?)\]/s);
+// 		let localFonts = [];
+// 		if (localFontsMatch?.[1].trim()) {
+// 			localFonts =
+// 				localFontsMatch[1]
+// 					.match(/["']([^"']+)["']/g)
+// 					?.map((s) => s.replace(/["']/g, "")) || [];
+// 		}
+
+// 		// if (enableCompress && localFonts.length > 0) {
+// 		if (localFonts.length > 0) {
+// 			fonts.push({ type: fontType, files: localFonts/*, enableCompress*/ });
+// 		}
+// 	}
+
+// 	return fonts;
+// }
+
 export function getFontConfigs() {
-	const content = readSiteConfig();
+	const configPath = path.join(ROOT_DIR, "astro.config.mjs");
+    const content = fs.readFileSync(configPath, "utf-8");
 
-	const fontConfigMatch = content.match(/font:\s*\{([\s\S]*?)\n\t\},/);
-	if (!fontConfigMatch) {
-		console.log("⚠ Font config not found, using default settings");
-		return [];
-	}
+    const fonts = [];
 
-	const fontConfigStr = fontConfigMatch[1];
-	const fonts = [];
-	const fontTypes = ["asciiFont", "cjkFont"];
+    // 找到所有 provider: fontProviders.local() 的配置块
+    const localFontBlocks = content.match(
+        /{[\s\S]*?provider:\s*fontProviders\.local\(\)[\s\S]*?}/g
+    ) || [];
 
-	for (const fontType of fontTypes) {
-		const regex = new RegExp(`${fontType}:\\s*\\{([\\s\\S]*?)\\}`, "m");
-		const match = fontConfigStr.match(regex);
-		if (!match) continue;
+    for (const block of localFontBlocks) {
+        const matches = [...block.matchAll(/src:\s*\[(.*?)\]/gs)];
 
-		const config = match[1];
+        const files = [];
 
-		const compressMatch = config.match(/enableCompress:\s*(true|false)/);
-		const enableCompress = compressMatch ? compressMatch[1] === "true" : false;
+        for (const m of matches) {
+            const paths = m[1].match(/["']([^"']+)["']/g) || [];
 
-		const localFontsMatch = config.match(/localFonts:\s*\[(.*?)\]/s);
-		let localFonts = [];
-		if (localFontsMatch?.[1].trim()) {
-			localFonts =
-				localFontsMatch[1]
-					.match(/["']([^"']+)["']/g)
-					?.map((s) => s.replace(/["']/g, "")) || [];
-		}
+            for (const p of paths) {
+                files.push(p.replace(/['"]/g, ""));
+            }
+        }
 
-		if (enableCompress && localFonts.length > 0) {
-			fonts.push({ type: fontType, files: localFonts, enableCompress });
-		}
-	}
+        if (files.length) {
+            fonts.push({
+                type: "cjkFont",
+                files,
+            });
+        }
+    }
+	
 
-	return fonts;
+    return fonts;
 }
 
 /**

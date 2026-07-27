@@ -7,17 +7,19 @@ import { getFontConfigs } from "./config-parser.js";
  * 更新 dist 中的 CSS，将 ttf 引用替换为 woff2
  */
 export async function updateCssFontReferences() {
+	console.log("[css-rewriter] started");
+
 	try {
 		const fonts = getFontConfigs();
 		const distDir = path.join(ROOT_DIR, "dist/");
-		const publicFontDir = path.join(ROOT_DIR, "public/assets/font");
+		const publicFontDir = path.join(ROOT_DIR, "src/assets/fonts");
 
 		const cssFiles = readFilesRecursively(distDir).filter((f) =>
-			f.endsWith(".css"),
+			f.endsWith(".css") || f.endsWith(".html"),
 		);
 
 		if (cssFiles.length === 0) {
-			console.log("⚠ No CSS files found in dist");
+			console.warn("⚠ No CSS files found in dist");
 			return;
 		}
 
@@ -30,15 +32,9 @@ export async function updateCssFontReferences() {
 
 				const distWoff2 = path.join(
 					ROOT_DIR,
-					`dist/assets/font/${woff2File}`,
+					`dist/_astro/fonts/${woff2File}`,
 				);
-				const publicWoff2 = path.join(
-					publicFontDir,
-					`${baseName}.woff2`,
-				);
-				const hasWoff2 =
-					fs.existsSync(distWoff2) || fs.existsSync(publicWoff2);
-
+				const hasWoff2 = fs.existsSync(distWoff2);
 				if (!hasWoff2) {
 					console.log(
 						`⚠ No woff2 found for ${baseName}, keeping ttf reference`,
@@ -50,22 +46,39 @@ export async function updateCssFontReferences() {
 					let cssContent = fs.readFileSync(cssFile, "utf-8");
 					const originalContent = cssContent;
 
-					const ttfPattern = new RegExp(
-						`url\\(["']?/assets/font/${baseName}\\.ttf["']?\\)\\s*format\\(["']truetype["']\\)`,
-						"g",
-					);
+					const fontFacePattern = /@font-face\s*\{[^}]*\}/gs;
 
-					if (fontConfig.enableCompress) {
-						cssContent = cssContent.replace(
-							ttfPattern,
-							`url("/assets/font/${woff2File}") format("woff2")`,
+					cssContent = cssContent.replace(fontFacePattern, (block) => {
+						// 提取 font-family
+						const familyMatch = block.match(
+							/font-family\s*:\s*["']?([^;"'}]+)["']?/,
 						);
-					} else if (fs.existsSync(publicWoff2)) {
-						cssContent = cssContent.replace(
-							ttfPattern,
-							`url("/assets/font/${woff2File}") format("woff2"), url("/assets/font/${baseName}.ttf") format("truetype")`,
+
+						if (!familyMatch) return block;
+
+						const family = familyMatch[1];
+
+						// Astro 会在 font-family 后附加一段 hash，例如：
+						// MarukoGothicCJKsc-Medium-d7eefb91b0e1b4cf
+						// Loli-2e2a7b7cb5d9e781
+						const familyBase = family.replace(/-[0-9a-f]{16}$/, "");
+
+						// 当前 @font-face 不是正在处理的字体
+						if (familyBase !== baseName) {
+							return block;
+						}
+
+						// 已经存在 woff2，则无需重复处理
+						if (block.includes(".woff2")) {
+							return block;
+						}
+
+						// 替换 src
+						return block.replace(
+							/src\s*:\s*url\((["']?)([^)"']+\.ttf)\1\)\s*format\((["'])truetype\3\)/,
+							`src:url("/_astro/fonts/${woff2File}") format("woff2")`,
 						);
-					}
+					});
 
 					if (cssContent !== originalContent) {
 						fs.writeFileSync(cssFile, cssContent);
@@ -73,43 +86,6 @@ export async function updateCssFontReferences() {
 							`✓ Updated CSS: ${cssFile} (${baseName})`,
 						);
 					}
-				}
-			}
-		}
-
-		// 处理未在 config 中配置但用户直接放在 font 目录的 woff2
-		if (!fs.existsSync(publicFontDir)) return;
-		const publicFiles = fs.readdirSync(publicFontDir);
-
-		for (const file of publicFiles) {
-			if (!file.endsWith(".woff2")) continue;
-			const baseName = path.basename(file, ".woff2");
-			const ttfFile = `${baseName}.ttf`;
-
-			// 检查是否已在配置中处理过
-			const isConfigured = fonts.some((fc) =>
-				fc.files.some(
-					(f) => path.basename(f, path.extname(f)) === baseName,
-				),
-			);
-			if (isConfigured) continue;
-
-			for (const cssFile of cssFiles) {
-				let cssContent = fs.readFileSync(cssFile, "utf-8");
-				const ttfPattern = new RegExp(
-					`url\\(["']?/assets/font/${baseName}\\.ttf["']?\\)\\s*format\\(["']truetype["']\\)`,
-					"g",
-				);
-
-				if (cssContent.match(ttfPattern)) {
-					cssContent = cssContent.replace(
-						ttfPattern,
-						`url("/assets/font/${file}") format("woff2"), url("/assets/font/${ttfFile}") format("truetype")`,
-					);
-					fs.writeFileSync(cssFile, cssContent);
-					console.log(
-						`✓ Updated CSS: ${cssFile} (${baseName} - woff2 fallback)`,
-					);
 				}
 			}
 		}

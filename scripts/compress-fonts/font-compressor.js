@@ -48,16 +48,13 @@ export async function compressFonts() {
 			const text =
 				fontConfig.type === "asciiFont" ? asciiText : cjkText;
 
-			for (const fontFile of fontConfig.files) {
-				const fontSrc = path.join(
-					ROOT_DIR,
-					fontFile,
-				);
-				const ext = path.extname(fontFile).toLowerCase();
-				const baseName = path.basename(fontFile, ext);
+			for (const file of fontConfig.files) {
+				const fontSrc = file.absolutePath;
+				const ext = file.ext.toLowerCase();
+				const baseName = file.baseName;
 
 				if (!fs.existsSync(fontSrc)) {
-					const errorMsg = `❌ Config error [${fontConfig.type}]: Font file does not exist\n   In config: "${fontFile}"\n   Expected path: public/assets/font/${fontFile}\n\n   Please check:\n   1. Is the filename correct (case sensitive)?\n   2. Is the file in public/assets/font/?\n   3. Is ${fontConfig.type}.localFonts in src/config/siteConfig.ts correct?`;
+					const errorMsg = `❌ Config error [${fontConfig.type}]: Font file does not exist\n   In config: "${file.fileName}"\n   Expected path: public/assets/font/${fontFile}\n\n   Please check:\n   1. Is the filename correct (case sensitive)?\n   2. Is the file in public/assets/font/?\n   3. Is ${fontConfig.type}.localFonts in src/config/siteConfig.ts correct?`;
 					errors.push(errorMsg);
 					console.log(`\n${errorMsg}\n`);
 					continue;
@@ -68,12 +65,12 @@ export async function compressFonts() {
 
 				if (ext === ".woff2" || ext === ".woff") {
 					console.log(
-						`⚠ Skipping ${fontFile} (already web-optimized format)`,
+						`⚠ Skipping ${file.fileName} (already web-optimized format)`,
 					);
-					fs.copyFileSync(fontSrc, path.join(distFontDir, fontFile));
+					fs.copyFileSync(fontSrc, path.join(distFontDir, file.fileName));
 					totalCompressedSize += originalSize;
 				} else if (ext === ".ttf" || ext === ".otf") {
-					console.log(`Compressing ${fontFile}...`);
+					console.log(`Compressing ${file.fileName}...`);
 
 					const fontmin = new Fontmin()
 						.src(fontSrc)
@@ -100,7 +97,7 @@ export async function compressFonts() {
 
 					const compressedFile = path.join(
 						distFontDir,
-						`${baseName}.woff2`,
+						file.woff2Name,
 					);
 
 					if (fs.existsSync(compressedFile)) {
@@ -112,13 +109,13 @@ export async function compressFonts() {
 							100
 						).toFixed(2);
 						console.log(
-							`✓ ${fontFile} → ${baseName}.woff2 (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)`,
+							`✓ ${file.fileName} → ${file.woff2Name}.woff2 (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)`,
 						);
 						processedCount++;
 					}
 				} else {
 					console.log(
-						`⚠ Unsupported font format, skipping: ${fontFile}`,
+						`⚠ Unsupported font format, skipping: ${file.fileName}`,
 					);
 				}
 			}
@@ -153,7 +150,7 @@ export async function compressFonts() {
 				(1 - totalCompressedSize / totalOriginalSize) *
 				100
 			).toFixed(2);
-			console.log("\n✓ Font optimization complete!");
+			console.log("\n✓ Font compression complete!");
 			console.log(
 				`  Files processed: ${processedCount}, Overall reduction: ${totalReduction}%`,
 			);

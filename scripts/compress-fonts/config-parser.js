@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { ROOT_DIR } from "./utils.js";
-
+import {parse} from "acorn";
 /**
  * 一次性读取 siteConfig.ts，缓存原始内容
  * 所有配置解析共享同一次文件读取
@@ -71,40 +71,247 @@ export function getLang() {
 // 	return fonts;
 // }
 
+
 export function getFontConfigs() {
+
 	const configPath = path.join(ROOT_DIR, "astro.config.mjs");
-    const content = fs.readFileSync(configPath, "utf-8");
+	const content = fs.readFileSync(configPath, "utf8");
 
-    const fonts = [];
 
-    // 找到所有 provider: fontProviders.local() 的配置块
-    const localFontBlocks = content.match(
-        /{[\s\S]*?provider:\s*fontProviders\.local\(\)[\s\S]*?}/g
-    ) || [];
+	const ast = parse(content, {
+		sourceType: "module",
+		ecmaVersion: "latest",
+	});
 
-    for (const block of localFontBlocks) {
-        const matches = [...block.matchAll(/src:\s*\[(.*?)\]/gs)];
 
-        const files = [];
+	const fonts = [];
 
-        for (const m of matches) {
-            const paths = m[1].match(/["']([^"']+)["']/g) || [];
 
-            for (const p of paths) {
-                files.push(p.replace(/['"]/g, ""));
-            }
-        }
+	// 找 fonts 数组
+	const fontsArray = findFontsArray(ast);
 
-        if (files.length) {
-            fonts.push({
-                type: "cjkFont",
-                files,
-            });
-        }
-    }
-	
 
-    return fonts;
+	if (!fontsArray) {
+		return fonts;
+	}
+
+
+	for (const item of fontsArray.elements) {
+
+
+		// 只处理对象
+		if (
+			!item ||
+			item.type !== "ObjectExpression"
+		) {
+			continue;
+		}
+
+
+		// 判断 provider 是否 local()
+		const provider = getProperty(
+			item,
+			"provider"
+		);
+
+
+		if (
+			!provider ||
+			!isLocalProvider(provider.value)
+		) {
+			continue;
+		}
+
+
+
+		const name = getLiteralProperty(
+			item,
+			"name"
+		);
+
+
+
+		const files = [];
+
+
+		const options = getProperty(
+			item,
+			"options"
+		);
+
+
+		if (options) {
+
+			const variants = getProperty(
+				options.value,
+				"variants"
+			);
+
+
+			if (variants) {
+
+				for (const variant of variants.value.elements) {
+
+					const src = getProperty(
+						variant,
+						"src"
+					);
+
+
+					if (!src) {
+						continue;
+					}
+
+
+					for (const element of src.value.elements) {
+
+						const srcPath = element.value;
+
+						const fileName =
+							path.basename(srcPath);
+
+						const ext =
+							path.extname(fileName);
+
+						const baseName =
+							path.basename(
+								fileName,
+								ext
+							);
+
+
+						files.push({
+							src: srcPath,
+							absolutePath:
+								path.resolve(
+									ROOT_DIR,
+									srcPath
+								),
+							fileName,
+							baseName,
+							ext,
+							woff2Name:
+								`${baseName}.woff2`,
+						});
+					}
+				}
+			}
+		}
+
+
+
+		if (files.length) {
+
+			fonts.push({
+				name,
+				type: "cjkFont",
+				files,
+			});
+
+		}
+
+	}
+
+
+	console.dir(fonts, {
+		depth: null
+	});
+
+
+	return fonts;
+}
+
+
+
+
+
+
+// ----------------------------
+// 工具函数
+// ----------------------------
+
+
+// 查找 fonts 数组
+function findFontsArray(node) {
+
+	if (!node || typeof node !== "object") {
+		return null;
+	}
+
+
+	if (
+		node.type === "Property" &&
+		node.key.name === "fonts" &&
+		node.value.type === "ArrayExpression"
+	) {
+		return node.value;
+	}
+
+
+
+	for (const key in node) {
+
+		const result = findFontsArray(
+			node[key]
+		);
+
+		if (result) {
+			return result;
+		}
+	}
+
+
+	return null;
+}
+
+
+
+// 获取对象属性
+function getProperty(obj, name) {
+
+	if (
+		!obj ||
+		obj.type !== "ObjectExpression"
+	) {
+		return null;
+	}
+
+
+	return obj.properties.find(
+		p =>
+			p.key.name === name
+	);
+}
+
+
+
+// 获取字符串属性
+function getLiteralProperty(obj, name) {
+
+	const prop = getProperty(
+		obj,
+		name
+	);
+
+
+	return prop?.value?.value ?? null;
+}
+
+
+
+// 判断 provider.fontProviders.local()
+function isLocalProvider(node) {
+
+
+	return (
+		node.type === "CallExpression" &&
+
+		node.callee.type === "MemberExpression" &&
+
+		node.callee.object.name === "fontProviders" &&
+
+		node.callee.property.name === "local"
+	);
 }
 
 /**

@@ -6,11 +6,23 @@
  *   config-parser.js  — 配置解析（单次读取 siteConfig.ts，缓存后分发）
  *   text-collector.js — 文本采集（8 个来源：本地文件 + 3 个远程 API + 常用字符）
  *   font-compressor.js— 字体压缩（Fontmin 子集化 + ttf→woff2 转换）
- *   css-rewriter.js   — CSS 重写（dist/ 中 ttf 引用替换为 woff2）
+ *   font-rewriter.js   — CSS/HTML 重写（dist/ 中 ttf 引用替换为 woff2）
  *   index.js          — 入口（串联 compress → rewrite）
  */
 
 import { compressFonts } from "./font-compressor.js";
-import { updateCssFontReferences } from "./css-rewriter.js";
+import { updateFileFontReferences } from "./font-rewriter.js";
 
-compressFonts().then(() => updateCssFontReferences());
+export function fontOptimizer() {
+	return {
+		name: "font-optimizer",
+		hooks: {
+			"astro:build:done": async () => {
+                console.log("Optimizing fonts start...");
+				await compressFonts();
+				await updateFileFontReferences();
+                console.log("✓ Font optimization completed!");
+			},
+		},
+	};
+}

@@ -13,44 +13,46 @@ export interface DiaryItem {
 
 // 示例日记数据
 const diaryData: DiaryItem[] = [
+	// {
+	// 	id: 1,
+	// 	content:
+	// 		"test",
+	// 	date: "2026-07-06",
+	// 	location:"Earth",
+	// 	mood:"MOOD",
+	// 	tags:["thisIsATag"],
+	// images: ["/images/diary/test.jpg"],
+	// },
 	{
 		id: 1,
-		content:
-			"test",
-		date: "2026-07-06",
-		location:"Earth",
-		mood:"MOOD",
-		tags:["thisIsATag"],
-	},
-	{
-		id: 2,
 		content:
 			"忙碌了两天的NF3eb师傅终于搭好了这个网站......",
 		date: "2026-07-07",
 	},
 	{
-		id: 3,
+		id: 2,
 		content:
 			"神秘GPT5.5在GPT5.6发布后突然降智并捏造根本无法生效的修改方案导致我做新页面做了一个下午",
 		date: "2026-07-10",
 	},
 	{
-		id: 4,
+		id: 3,
 		content:
 			"摸索一小时终于学会如何在文章里面插入图片了......",
 		date: "2026-07-14 01:07:53",
 	},
 	{
-		id: 5,
+		id: 4,
 		content:
 			"日更好累......开个MC新坑",
 		date: "2026-07-15 23:20:53",
 	},
 	{
-		id: 6,
+		id: 5,
 		content:
-			"今日停更一天༼∩•́ω•̀∩༽",
-		date: "2026-07-17 01:04:53",
+			"第四次出勤累累累累累累累累累累累累累累累累累累累累累累累累累累累累累累累累越级爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽",
+		date: "2026-08-03 23:20:53",
+		images: ["/images/diary/20260803wm0.jpg","/images/diary/20260803wm1.jpg","/images/diary/20260803wm2.jpg","/images/diary/20260803wm3.jpg"],
 	},
 ];
 

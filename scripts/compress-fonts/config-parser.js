@@ -73,113 +73,51 @@ export function getLang() {
 
 
 export function getFontConfigs() {
-
 	const configPath = path.join(ROOT_DIR, "astro.config.mjs");
 	const content = fs.readFileSync(configPath, "utf8");
-
-
 	const ast = parse(content, {
 		sourceType: "module",
 		ecmaVersion: "latest",
 	});
-
-
 	const fonts = [];
-
-
-	// 找 fonts 数组
+	// 查找 fonts 数组
 	const fontsArray = findFontsArray(ast);
-
-
 	if (!fontsArray) {
 		return fonts;
 	}
-
-
 	for (const item of fontsArray.elements) {
-
-
 		// 只处理对象
-		if (
-			!item ||
-			item.type !== "ObjectExpression"
-		) {
+		if (!item || item.type !== "ObjectExpression") {
 			continue;
 		}
-
-
 		// 判断 provider 是否 local()
-		const provider = getProperty(
-			item,
-			"provider"
-		);
-
-
-		if (
-			!provider ||
-			!isLocalProvider(provider.value)
-		) {
+		const provider = getProperty(item,"provider");
+		if (!provider || !isLocalProvider(provider.value)) {
 			continue;
 		}
-
-
-
-		const name = getLiteralProperty(
-			item,
-			"name"
-		);
-
-
-
+		const name = getLiteralProperty(item,"name");
 		const files = [];
-
-
-		const options = getProperty(
-			item,
-			"options"
-		);
-
-
+		const options = getProperty(item,"options");
 		if (options) {
-
-			const variants = getProperty(
-				options.value,
-				"variants"
-			);
-
-
+			const variants = getProperty(options.value,"variants");
 			if (variants) {
-
 				for (const variant of variants.value.elements) {
-
-					const src = getProperty(
-						variant,
-						"src"
-					);
-
-
+					const src = getProperty(variant,"src");
 					if (!src) {
 						continue;
 					}
-
-
 					for (const element of src.value.elements) {
 
 						const srcPath = element.value;
-
 						const fileName =
 							path.basename(srcPath);
-
 						const ext =
 							path.extname(fileName);
-
 						const baseName =
 							path.basename(
 								fileName,
 								ext
 							);
-
-
 						files.push({
 							src: srcPath,
 							absolutePath:
@@ -197,48 +135,28 @@ export function getFontConfigs() {
 				}
 			}
 		}
-
-
-
 		if (files.length) {
-
 			fonts.push({
 				name,
 				type: "cjkFont",
 				files,
 			});
-
 		}
-
 	}
-
-
 	console.dir(fonts, {
 		depth: null
 	});
-
-
 	return fonts;
 }
-
-
-
-
-
-
 // ----------------------------
 // 工具函数
 // ----------------------------
 
-
 // 查找 fonts 数组
 function findFontsArray(node) {
-
 	if (!node || typeof node !== "object") {
 		return null;
 	}
-
-
 	if (
 		node.type === "Property" &&
 		node.key.name === "fonts" &&
@@ -246,21 +164,14 @@ function findFontsArray(node) {
 	) {
 		return node.value;
 	}
-
-
-
 	for (const key in node) {
-
 		const result = findFontsArray(
 			node[key]
 		);
-
 		if (result) {
 			return result;
 		}
 	}
-
-
 	return null;
 }
 
@@ -268,15 +179,9 @@ function findFontsArray(node) {
 
 // 获取对象属性
 function getProperty(obj, name) {
-
-	if (
-		!obj ||
-		obj.type !== "ObjectExpression"
-	) {
+	if (!obj || obj.type !== "ObjectExpression") {
 		return null;
 	}
-
-
 	return obj.properties.find(
 		p =>
 			p.key.name === name
@@ -287,13 +192,7 @@ function getProperty(obj, name) {
 
 // 获取字符串属性
 function getLiteralProperty(obj, name) {
-
-	const prop = getProperty(
-		obj,
-		name
-	);
-
-
+	const prop = getProperty(obj,name);
 	return prop?.value?.value ?? null;
 }
 
@@ -301,15 +200,10 @@ function getLiteralProperty(obj, name) {
 
 // 判断 provider.fontProviders.local()
 function isLocalProvider(node) {
-
-
 	return (
 		node.type === "CallExpression" &&
-
 		node.callee.type === "MemberExpression" &&
-
 		node.callee.object.name === "fontProviders" &&
-
 		node.callee.property.name === "local"
 	);
 }

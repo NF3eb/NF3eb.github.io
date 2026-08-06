@@ -6,8 +6,8 @@ import { getFontConfigs } from "./config-parser.js";
 /**
  * 更新 dist 中的 HTML，将 ttf 引用替换为 woff2
  */
-export async function updateFileFontReferences() {
-	console.log("[file-rewriter] started");
+export async function updateHtmlFontReferences() {
+	console.log("[html-rewriter] started");
 
 	try {
 		const fonts = getFontConfigs();
@@ -17,7 +17,7 @@ export async function updateFileFontReferences() {
 			f.endsWith(".html"),
 		);
 		if (Files.length === 0) {
-			console.warn("⚠ No CSS/HTML files found in dist");
+			console.warn("⚠ No HTML files found in dist");
 			return;
 		}
 
@@ -127,6 +127,6 @@ export async function updateFileFontReferences() {
     		}
 		}
 	} catch (error) {
-		console.error("⚠ CSS/HTML font reference update failed:", error.message);
+		console.error("⚠ HTML font reference update failed:", error.message);
 	}
 }

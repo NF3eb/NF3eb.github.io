@@ -11,7 +11,7 @@
  */
 
 import { compressFonts } from "./font-compressor.js";
-import { updateFileFontReferences } from "./font-rewriter.js";
+import { updateHtmlFontReferences } from "./html-rewriter.js";
 
 export function fontOptimizer() {
 	return {
@@ -20,7 +20,7 @@ export function fontOptimizer() {
 			"astro:build:done": async () => {
                 console.log("Optimizing fonts start...");
 				await compressFonts();
-				await updateFileFontReferences();
+				await updateHtmlFontReferences();
                 console.log("✓ Font optimization completed!");
 			},
 		},

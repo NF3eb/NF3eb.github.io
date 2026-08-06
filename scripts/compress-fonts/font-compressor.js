@@ -109,7 +109,7 @@ export async function compressFonts() {
 							100
 						).toFixed(2);
 						console.log(
-							`✓ ${file.fileName} → ${file.woff2Name}.woff2 (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)`,
+							`✓ ${file.fileName} → ${file.woff2Name} (${(compressedSize / 1024).toFixed(2)} KB, reduced ${reduction}%)`,
 						);
 						processedCount++;
 					}

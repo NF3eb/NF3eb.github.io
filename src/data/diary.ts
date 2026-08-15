@@ -21,7 +21,7 @@ const diaryData: DiaryItem[] = [
 	// 	location:"Earth",
 	// 	mood:"MOOD",
 	// 	tags:["thisIsATag"],
-	// images: ["/images/diary/test.jpg"],
+	//  images: ["/images/diary/test.jpg"],
 	// },
 	{
 		id: 1,
@@ -51,8 +51,19 @@ const diaryData: DiaryItem[] = [
 		id: 5,
 		content:
 			"第四次出勤累累累累累累累累累累累累累累累累累累累累累累累累累累累累累累累累越级爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽",
-		date: "2026-08-03 23:20:53",
+		date: "2026-08-03",
+		location:"马群合电占",
+		tags:["awmc"],
 		images: ["/images/diary/20260803wm0.jpg","/images/diary/20260803wm1.jpg","/images/diary/20260803wm2.jpg","/images/diary/20260803wm3.jpg"],
+	},
+	{
+		id: 6,
+		content:
+			"7000分",
+		date: "2026-08-15",
+		tags:["awmc"],
+		location:"万达大玩家",
+		images: ["/images/diary/20260815wm.jpg"],
 	},
 ];
 

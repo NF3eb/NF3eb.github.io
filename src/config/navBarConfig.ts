@@ -141,14 +141,12 @@ export const navBarConfig: NavBarConfig = {
       		icon: "material-symbols:book",
       		external: false,
    		},
-		/*
 		{
 			name: "相册",
 			url: "/albums/",
 			icon: "material-symbols:photo-library",
 			external: false,
 		},
-		*/
 		{
 	    	name: "游戏",
       		url: "/game/",

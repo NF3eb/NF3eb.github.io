@@ -50,11 +50,10 @@ const diaryData: DiaryItem[] = [
 	{
 		id: 5,
 		content:
-			"第四次出勤累累累累累累累累累累累累累累累累累累累累累累累累累累累累累累累累越级爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽爽",
+			"成功带坏舍友打乌蒙",
 		date: "2026-08-03",
-		location:"马群合电占",
 		tags:["awmc"],
-		images: ["/images/diary/20260803wm0.jpg","/images/diary/20260803wm1.jpg","/images/diary/20260803wm2.jpg","/images/diary/20260803wm3.jpg"],
+		images: ["/images/diary/20260803wm0.jpg","/images/diary/20260803wm1.jpg"],
 	},
 	{
 		id: 6,
@@ -62,8 +61,23 @@ const diaryData: DiaryItem[] = [
 			"7000分",
 		date: "2026-08-15",
 		tags:["awmc"],
-		location:"万达大玩家",
-		images: ["/images/diary/20260815wm.jpg"],
+		images: ["/images/diary/20260815wm0.jpg"],
+	},
+	{
+		id: 7,
+		content:
+			"第一个🐦➕",
+		date: "2026-08-18",
+		tags:["awmc"],
+		images: ["/images/albums/wm/20260818wm0.png"],
+	},
+	{
+		id: 8,
+		content:
+			"第一个🐦",
+		date: "2026-08-19",
+		tags:["awmc"],
+		images: ["/images/albums/wm/20260819wm0.jpg"],
 	},
 ];
 

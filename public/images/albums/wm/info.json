@@ -3,6 +3,6 @@
 	"hidden": false,
 	"description": "欧耶我喜欢打舞萌",
 	"date": "2026-06-14",
-	"layout": "masonry",
+	"layout": "grid",
 	"columns": 3
 }

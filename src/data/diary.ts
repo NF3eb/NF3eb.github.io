@@ -87,6 +87,14 @@ const diaryData: DiaryItem[] = [
 		tags:["awmc"],
 		images: ["/images/diary/20260825wm0.jpg"],
 	},
+	{
+		id: 10,
+		content:
+			"已逃离原生紫框",
+		date: "2026-09-21",
+		tags:["awmc"],
+		images: ["/images/diary/20260921wm0.jpg"],
+	},
 ];
 
 // 获取日记列表（按id倒序）

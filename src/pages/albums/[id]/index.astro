@@ -39,7 +39,7 @@ if (isEncrypted) {
 	const photoHtml = album.photos
 		.map(
 			(photo: Photo) =>
-				`<div class="gallery-masonry-item"><a data-fancybox="album-${album.id}" href="${photo.src}" data-caption="${photo.alt || photo.title || ""}"><img src="${photo.src}" alt="${photo.alt || photo.title || ""}" loading="lazy" decoding="async" class="w-full rounded-lg" /></a></div>`,
+				`<div class="gallery-photo-card"><a data-fancybox="album-${album.id}" href="${photo.src}" data-caption="${photo.alt || photo.title || ""}"><img src="${photo.src}" alt="${photo.alt || photo.title || ""}" loading="lazy" decoding="async" class="w-full rounded-lg" /></a></div>`,
 		)
 		.join("");
 	const wrappedHtml = `<div class="gallery-masonry">${photoHtml}</div>`;

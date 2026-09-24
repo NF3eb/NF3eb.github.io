@@ -5,14 +5,12 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 瀑布流布局 */
+/* 照片网格布局：行优先排列（从左到右，再换行） */
 .gallery-masonry {
-  column-width: 240px;
-  column-gap: 0.75rem;
-}
-
-.gallery-masonry .gallery-photo-card {
-  break-inside: avoid;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75rem;
+  align-items: start;
 }
 
 /* 照片网格加载动画 */
@@ -47,15 +45,15 @@
   }
 }
 
-/* 响应式瀑布流 */
+/* 响应式网格 */
 @media (width < 768px) {
   .gallery-masonry {
-    column-width: 180px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 }
 
 @media (width < 480px) {
   .gallery-masonry {
-    column-width: 140px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
 }

@@ -148,6 +148,15 @@ function scanPhotos(folderPath: string, albumId: string): Photo[] {
 		);
 	});
 
+	// 按文件名（不含扩展名）字典序倒序：排序越靠后的文件，展示位置越靠前
+	imageFiles.sort((a, b) => {
+		const nameA = path.basename(a, path.extname(a));
+		const nameB = path.basename(b, path.extname(b));
+		if (nameA < nameB) return 1;
+		if (nameA > nameB) return -1;
+		return 0;
+	});
+
 	const fileWebpMap = new Map<string, string>();
 	for (const file of imageFiles) {
 		const baseName = path.basename(file, path.extname(file));
